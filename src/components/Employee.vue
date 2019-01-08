@@ -1,13 +1,11 @@
 <template>
 <div>
-  雷氏管理,小小得改一下
+  <h1>雷氏管理,小小得</h1>
 </div>
 </template>
 
 <script>
-  export default {
-    name: 'Employee.vue'
-  }
+
 </script>
 
 <style scoped>
