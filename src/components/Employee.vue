@@ -1,6 +1,6 @@
 <template>
 <div>
-  雷氏管理
+  雷氏管理,小小得改一下
 </div>
 </template>
 
