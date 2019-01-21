@@ -56,7 +56,7 @@ export default {
       checkName:[],
       picked: '格力',
       selected: '',
-      checkArr: ['吴兴军','刘静','吴兴蓉'],
+      checkArr: ['吴兴军','吴兴蓉'],
       change: function (){
         if(this.check){
           this.checkedNames = this.checkArr
