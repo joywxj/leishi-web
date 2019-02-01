@@ -2,7 +2,7 @@
   <!-- 添加员工 -->
   <div>
     姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" /><br/>
-    身份证号:<input v-model="identity" v-ident maxlength="18" @mouseleave="verifyIdentity()">{{ idVeMessage }}<br/>
+    身份证号:<input v-model="identity" maxlength="18" @blur="verifyIdentity()">{{ idVeMessage }}<br/>
     年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age"><br/>
     联系电话:<input v-model="phone" maxlength="11"><br/>
     登录名称:<input v-model="userName"><br/>
@@ -21,13 +21,7 @@
 <script>
 import axios from 'axios';
 export default {
-    directives: {
-      ident: {
-        update: function (el) {
-          el.focus();
-        }
-      }
-  },
+
     data () {
       return {
         name: '',
@@ -54,13 +48,14 @@ export default {
         })
       },
       verifyIdentity: function () {
+        var that = this;
         var qs = require('qs');
         axios.post('/kernel/employee/verifyID',qs.stringify({
           identity: this.identity
         })).then(function (res){
-         if(res.data.obj){
-           alert(res.data.obj)
-         }
+          if(res.data.obj){
+            alert('身份证号：'+that.identity+'已经存在');
+          }
         })
       },
       sub: function (){
@@ -77,7 +72,11 @@ export default {
           age: this.age,
           password: this.password
         })).then(function (res){
-
+            if(res.data.status == 1){
+                alert('新增成功')
+            }else{
+              alert('新增失败')
+            }
         })
       }
     }
