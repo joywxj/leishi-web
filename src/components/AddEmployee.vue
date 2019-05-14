@@ -1,19 +1,21 @@
 <template>
   <!-- 添加员工 -->
   <div>
-    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" /><br/>
+    <h1 style="margin-left: 200px;">添加员工</h1>
+    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
     身份证号:<input v-model="identity" maxlength="18" @blur="verifyIdentity()">{{ idVeMessage }}<br/>
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age"><br/>
-    联系电话:<input v-model="phone" maxlength="11"><br/>
-    登录名称:<input v-model="userName"><br/>
-    登录密码:<input TYPE="password" v-model="password"><br/>
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">&nbsp;&nbsp;&nbsp;&nbsp;
+     登录名称:<input v-model="userName"><br/>
+    登录密码:<input TYPE="password" v-model="password">&nbsp;&nbsp;&nbsp;&nbsp;
+    确认密码:<input TYPE="password" v-model="pwd" @blur="verifyPassword()"><br/>
+    联系电话:<input v-model="phone" maxlength="11">&nbsp;&nbsp;&nbsp;&nbsp;
     通讯地址:<input v-model="commAddress"><br/>
-    家庭地址:<input v-model="homeAddress"><br/>
+    家庭地址:<input v-model="homeAddress">&nbsp;&nbsp;&nbsp;&nbsp;
     薪资等级:<select v-model="salary">
     <option>请选择</option>
     <option v-for="item in salaryGrade" v-bind:value="item.keywords">{{ item.value}}</option>
-  </select><br/>
-    <input type="button" @click="sub()" value="提交" />
+  </select><br/><br/>
+    <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
   </div>
 
 </template>
@@ -34,13 +36,24 @@ export default {
         userName:'',
         age: 0,
         password: '',
-        idVeMessage: ''
+        idVeMessage: '',
+        pwd:''
       }
     },
     mounted(){
       this.querySalary()
     },
     methods: {//定义方法
+      verifyPassword: function (){
+        if(this.password == '' || this.pwd == ''){
+          alert('密码不可为空')
+        }
+        if(this.password ==  this.pwd){
+          alert('密码一致')
+        }else{
+          alert('密码不一致')
+        }
+      },
       querySalary: function () {
         var that = this;
         axios.post('/kernel/employee/salaryGrade').then(function (res){

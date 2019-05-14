@@ -1,13 +1,94 @@
 <template>
-<div>
-  <h1>雷氏管理,小小得</h1>
-</div>
+  <!-- 添加员工 -->
+  <div>
+    <h1 style="margin-left: 200px;">员工查询</h1>
+    姓名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
+    身份证号:<input v-model="identity" maxlength="18">{{ idVeMessage }}
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">&nbsp;&nbsp;&nbsp;&nbsp;
+    联系电话:<input v-model="phone" maxlength="11">&nbsp;&nbsp;&nbsp;
+    薪资等级:<select v-model="salary">
+    <option>请选择</option>
+    <option v-for="item in salaryGrade" v-bind:value="item.keywords">{{ item.value}}</option>
+  </select>
+    <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
+    <div>
+      <table>
+        <tr align="center">
+          <td>姓名</td>
+          <td>年龄</td>
+          <td>电话号码</td>
+          <td>身份证号</td>
+          <td>登录用户名</td>
+          <td>薪资等级</td>
+          <td>状态</td>
+          <td>通讯地址</td>
+          <td>家庭地址</td>
+          <td>创建时间</td>
+          <td>修改时间</td>
+        </tr>
+        <tr align="center"  v-for="site in sites">
+            <td>{{ site.name }}</td>
+            <td>{{ site.age }}</td>
+            <td>{{ site.phone }}</td>
+            <td>{{ site.identity }}</td>
+            <td>{{ site.userName }}</td>
+            <td>{{ site.salaryGrade }}</td>
+            <td>{{ site.status }}</td>
+            <td>{{ site.commAddress }}</td>
+            <td>{{ site.homeAddress }}</td>
+            <td>{{ site.createTime }}</td>
+            <td>{{ site.updateTime }}</td>
+          </tr>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
+  import axios from 'axios';
+  export default {
 
+    data () {
+      return {
+        name: '',
+        identity: '',
+        phone: '',
+        salaryGrade: [],
+        salary: 1,
+        userName:'',
+        age: 0,
+        idVeMessage: '',
+        sites: []
+      }
+    },
+    mounted(){
+      this.querySalary()
+      this.queryEmployee()
+    },
+    methods: {//定义方法,
+     querySalary: function () {
+        var that = this;
+        axios.post('/kernel/employee/salaryGrade').then(function (res){
+          that.salaryGrade = res.data.obj
+        })
+      },
+      queryEmployee: function (){
+        var that=this;
+        var qs = require('qs');
+        if(this.salary =='请选择'){
+          this.salary = '';
+        }
+        axios.post('/kernel/employee/query',qs.stringify({
+          name: this.name,
+          identity: this.identity,
+          phone: this.phone,
+          salaryGrade: this.salary,
+          userName: this.userName,
+          age: this.age
+        })).then(function (res){
+          that.sites =res.data.obj.list
+        })
+      }
+    }
+  }
 </script>
-
-<style scoped>
-
-</style>
