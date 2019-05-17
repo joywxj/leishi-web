@@ -1,5 +1,5 @@
 <template>
-  <!-- 添加员工 -->
+  <!-- 修改员工 -->
   <div>
     <h1 style="margin-left: 200px;">添加员工</h1>
     姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;

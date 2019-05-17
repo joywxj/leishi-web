@@ -1,5 +1,4 @@
 <template>
-  <!-- 添加员工 -->
   <div>
     <h1 style="margin-left: 200px;">员工查询</h1>
     姓名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
@@ -10,7 +9,7 @@
     <option>请选择</option>
     <option v-for="item in salaryGrade" v-bind:value="item.keywords">{{ item.value}}</option>
   </select>
-    <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
+    <input style="margin-left: 250px" type="button" @click="queryEmployee()" value="提        交" />
     <div>
       <table>
         <tr align="center">
@@ -25,6 +24,8 @@
           <td>家庭地址</td>
           <td>创建时间</td>
           <td>修改时间</td>
+          <td>修改</td>
+          <td>删除</td>
         </tr>
         <tr align="center"  v-for="site in sites">
             <td>{{ site.name }}</td>
@@ -38,6 +39,8 @@
             <td>{{ site.homeAddress }}</td>
             <td>{{ site.createTime }}</td>
             <td>{{ site.updateTime }}</td>
+          <td><button v-on:click="update(site.id)">修改</button></td>
+          <td><a onclick="delete()">修改</a></td>
           </tr>
       </table>
     </div>
@@ -66,6 +69,14 @@
       this.queryEmployee()
     },
     methods: {//定义方法,
+      update: function (id){
+        var that = this;
+        setTimeout(
+          function () {
+            that.$router.push({path:'updateEmployee',query:{'id':id}});
+          }
+        )
+      },
      querySalary: function () {
         var that = this;
         axios.post('/kernel/employee/salaryGrade').then(function (res){
