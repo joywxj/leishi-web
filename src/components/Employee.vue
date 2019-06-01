@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h1 style="margin-left: 200px;">员工查询</h1>
-    姓名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-    身份证号:<input v-model="identity" maxlength="18">{{ idVeMessage }}
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">&nbsp;&nbsp;&nbsp;&nbsp;
-    联系电话:<input v-model="phone" maxlength="11">&nbsp;&nbsp;&nbsp;
+    <h1 align="center">员工查询</h1>
+    姓名:<input type="text"  v-model="name" />
+    身份证号:<input v-model="identity" maxlength="18">
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">
+    联系电话:<input v-model="phone" maxlength="11" >
     薪资等级:<select v-model="salary">
     <option>请选择</option>
     <option v-for="item in salaryGrade" v-bind:value="item.keywords">{{ item.value}}</option>
-  </select>
-    <input style="margin-left: 250px" type="button" @click="queryEmployee()" value="提        交" />
+  </select>&nbsp;
+    <input type="button" @click="queryEmployee()" value="提        交" />
     <div>
       <table>
         <tr align="center">
@@ -21,7 +21,6 @@
           <td>薪资等级</td>
           <td>状态</td>
           <td>通讯地址</td>
-          <td>家庭地址</td>
           <td>创建时间</td>
           <td>修改时间</td>
           <td>修改</td>
@@ -36,11 +35,11 @@
             <td>{{ site.salaryGrade }}</td>
             <td>{{ site.status }}</td>
             <td>{{ site.commAddress }}</td>
-            <td>{{ site.homeAddress }}</td>
+
             <td>{{ site.createTime }}</td>
             <td>{{ site.updateTime }}</td>
           <td><button v-on:click="update(site.id)">修改</button></td>
-          <td><a onclick="delete()">修改</a></td>
+          <td><button v-on:click="remove(site.id)">删除</button></td>
           </tr>
       </table>
     </div>
@@ -57,10 +56,9 @@
         identity: '',
         phone: '',
         salaryGrade: [],
-        salary: 1,
+        salary: '',
         userName:'',
-        age: 0,
-        idVeMessage: '',
+        age: '',
         sites: []
       }
     },
@@ -69,6 +67,19 @@
       this.queryEmployee()
     },
     methods: {//定义方法,
+      remove: function (id) {
+        var that = this;
+        var qs = require('qs');
+
+        axios.post('/kernel/employee/remove',qs.stringify({
+          id:id
+        })).then(function(res){
+          if(res.data.status == 1){
+            alert('删除成功');
+            that.$router.go(0);
+          }
+        })
+      },
       update: function (id){
         var that = this;
         setTimeout(
