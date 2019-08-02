@@ -5,6 +5,9 @@ import Employee from '@/components/Employee'
 import addEmp from '@/components/AddEmployee'
 import ZhiLing from '@/components/ZhiLing'
 import updateEmployee from '@/components/UpdateEmployee'
+import bank from '@/components/Bank'
+import updateBank from '@/components/updateBank'
+import addBank from '@/components/AddBank'
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +36,21 @@ export default new Router({
       path: '/updateEmployee',
       name: 'updateEmployee',
       component: updateEmployee
+    },
+    {
+      path: '/bank',
+      name: 'bank',
+      component: bank
+    },
+    {
+      path: '/updateBank',
+      name: 'updateBank',
+      component: updateBank
+    },
+    {
+      path: '/addBank',
+      name: 'addBank',
+      component: addBank
     }
   ]
 })

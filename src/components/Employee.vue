@@ -9,7 +9,7 @@
     <option>请选择</option>
     <option v-for="item in salaryGrade" v-bind:value="item.keywords">{{ item.value}}</option>
   </select>&nbsp;
-    <input type="button" @click="queryEmployee()" value="提        交" />
+    <input type="button" @click="queryEmployee()" value="查   询" />
     <div>
       <table>
         <tr align="center">
@@ -18,11 +18,10 @@
           <td>电话号码</td>
           <td>身份证号</td>
           <td>登录用户名</td>
-          <td>薪资等级</td>
           <td>状态</td>
           <td>通讯地址</td>
-          <td>创建时间</td>
           <td>修改时间</td>
+          <td>银行信息</td>
           <td>修改</td>
           <td>删除</td>
         </tr>
@@ -32,12 +31,10 @@
             <td>{{ site.phone }}</td>
             <td>{{ site.identity }}</td>
             <td>{{ site.userName }}</td>
-            <td>{{ site.salaryGrade }}</td>
             <td>{{ site.status }}</td>
             <td>{{ site.commAddress }}</td>
-
-            <td>{{ site.createTime }}</td>
             <td>{{ site.updateTime }}</td>
+          <td><button v-on:click="bankInfo(site.id)">查询银行信息</button></td>
           <td><button v-on:click="update(site.id)">修改</button></td>
           <td><button v-on:click="remove(site.id)">删除</button></td>
           </tr>
@@ -79,6 +76,14 @@
             that.$router.go(0);
           }
         })
+      },
+      bankInfo: function (id) {
+        var that = this;
+        setTimeout(
+          function () {
+            that.$router.push({path:'bank',query:{'id':id}});
+          }
+        )
       },
       update: function (id){
         var that = this;
