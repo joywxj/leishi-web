@@ -8,6 +8,7 @@ import updateEmployee from '@/components/UpdateEmployee'
 import bank from '@/components/Bank'
 import updateBank from '@/components/updateBank'
 import addBank from '@/components/AddBank'
+import timesheetindex from '@/components/timesheet/index'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +52,11 @@ export default new Router({
       path: '/addBank',
       name: 'addBank',
       component: addBank
-    }
+    },
+{
+  path: '/timesheet/index',
+    name: 'timesheetindex',
+  component: timesheetindex
+}
   ]
 })
