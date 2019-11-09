@@ -27,15 +27,15 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      bankAddress:'',
-      bankCard:'',
-      bankName:'',
-      bankDeposit:'',
-      sign:2,
+      bankAddress: '',
+      bankCard: '',
+      bankName: '',
+      bankDeposit: '',
+      sign: 2,
       id: '',
       name: '',
       banks: [],
-      statuss:[{'key':1,value:'常用'},{'key':0,value:'备用'}]
+      statuss: [{'key': 1, value: '常用'}, {'key': 0, value: '备用'}]
     }
   },
   mounted () {
@@ -43,7 +43,7 @@ export default {
     this.querybank()
   },
   methods: {// 定义方法
-   querySalary: function () {
+    querySalary: function () {
       var that = this
       axios.post('/kernel/bank/queryBanks').then(function (res) {
         that.banks = res.data.obj
@@ -57,9 +57,9 @@ export default {
       axios.post('/kernel/bank/query', qs.stringify(
         {id: id}
       )).then(function (res) {
-        if(res.data.obj.list[0].sign == '常用'){
+        if (res.data.obj.list[0].sign === '常用') {
           that.sign = 1
-        }else{
+        } else {
           that.sign = 0
         }
         that.bankCard = res.data.obj.list[0].bankCard
@@ -79,10 +79,10 @@ export default {
         bankName: this.bankName,
         bankDeposit: this.bankDeposit,
         bankAddress: this.bankAddress,
-        sign : this.sign
+        sign: this.sign
       })).then(function (res) {
         if (res.data.status === 1) {
-          that.$router.push({path:'bank',query:{'id':emId}});
+          that.$router.push({path: 'bank', query: {'id': emId}})
         } else {
           alert('修改失败')
         }

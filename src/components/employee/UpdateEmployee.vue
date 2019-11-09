@@ -40,7 +40,8 @@ export default {
       reason: '',
       b_salary: '',
       show: false,
-      statuss:[{'key':1,value:'在职'},{'key':0,value:'离职'}],
+      statuss: {'key':1, value: '在职'},
+    {'key': 0,value: '离职'}],
       status:''
     }
   },
