@@ -24,11 +24,6 @@ export default new Router({
       component: addEmp
     },
     {
-      path: '/ZhiLing',
-      name: 'ZhiLing',
-      component: ZhiLing
-    },
-    {
       path: '/Employee',
       name: 'Employee',
       component: Employee
