@@ -1,23 +1,26 @@
 <template>
   <!-- 修改员工 -->
   <div>
-    <h1 style="margin-left: 200px;">添加员工</h1>
-    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-    身份证号:<input v-model="identity" maxlength="18" @blur="verifyIdentity"><span style="color: red">{{idVeMessage}}</span><br/>
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">&nbsp;&nbsp;&nbsp;&nbsp;
-     登录名称:<input v-model="userName"><br/>
-    登录密码:<input TYPE="password" v-model="password">&nbsp;&nbsp;&nbsp;&nbsp;
-    确认密码:<input TYPE="password" v-model="pwd" @blur="verifyPassword"><br/>
-    联系电话:<input v-model="phone" maxlength="11" @blur="verifyPhone">&nbsp;&nbsp;&nbsp;&nbsp;
-    通讯地址:<input v-model="commAddress"><br/>
-    家庭地址:<input v-model="homeAddress">&nbsp;&nbsp;&nbsp;&nbsp;
-    薪资等级:<select v-model="salary">
-    <option>请选择</option>
-    <option v-for="item in salaryGrade" v-bind:value="item.keywords" v-bind:key="item.keywords" >{{ item.value}}</option>
-  </select><br/><br/>
+    <el-page-header style="height: 50px" @back="goBack" title="返回"  content="添加员工" />
+    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<el-input type="text"  v-model="name"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;
+    身份证号:<el-input v-model="identity" maxlength="18" @blur="verifyIdentity"></el-input><span style="color: red">{{idVeMessage}}</span><br/>
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<el-input v-model="age"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;
+     登录名称:<el-input v-model="userName" ></el-input><br/>
+    登录密码:<el-input TYPE="password" v-model="password"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;
+    确认密码:<el-input TYPE="password" v-model="pwd" @blur="verifyPassword" ></el-input><br/>
+    联系电话:<el-input v-model="phone" maxlength="11" @blur="verifyPhone" ></el-input>&nbsp;&nbsp;&nbsp;&nbsp;
+    通讯地址:<el-input v-model="commAddress"></el-input><br/>
+    家庭地址:<el-input v-model="homeAddress"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;
+    薪资等级:<el-select v-model="salary">
+    <el-option
+      v-for="item in salaryGrade"
+      :key="item.keywords"
+      :label="item.value"
+      :value="item.keywords">
+    </el-option>
+  </el-select><br/><br/>
     <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
   </div>
-
 </template>
 
 <script>

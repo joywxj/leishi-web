@@ -4,9 +4,7 @@
     </el-page-header>
     姓名:<el-input type="text"  v-model="name"></el-input>
     身份证号:<el-input v-model="identity" maxlength="18"></el-input>
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<el-input v-model="age"></el-input>
     联系电话:<el-input v-model="phone" maxlength="11" class="el-input" ></el-input>
-    <br />
     薪资等级:<el-select v-model="salary">
       <el-option
         v-for="item in salaryGrade"
@@ -19,7 +17,9 @@
     <div>
       <el-table
       :data="sites"
-      style="width: 100% ;align-content: center;align-items: center">
+      style="width: 100% ;align-content: center;align-items: center"
+      empty-text="暂无数据"
+      >
         <el-table-column
           prop="name"
           label="姓名"
@@ -65,19 +65,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <table>
-        <tr align="center">
-          <td colspan="11">
-            <div class="block">
-              <el-pagination align="center"
-                             background
-                             layout="prev, pager, next"
-                             :total="total">
-              </el-pagination>
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div class="block">
+        <el-pagination align="center"
+                       background
+                       layout="prev, pager, next"
+                       :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>

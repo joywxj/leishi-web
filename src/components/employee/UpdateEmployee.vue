@@ -2,23 +2,23 @@
   <!-- 修改员工 -->
   <div align="">
     <h1>修改信息</h1>
-    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">&nbsp;&nbsp;&nbsp;&nbsp;<br>
-    联系电话:<input v-model="phone" maxlength="11">&nbsp;&nbsp;&nbsp;&nbsp;
-    通讯地址:<input v-model="commAddress"><br/>
-    家庭地址:<input v-model="homeAddress">&nbsp;&nbsp;&nbsp;&nbsp;
-    薪资等级:<select v-model="salary" @change="salaryChange()">
-    <option>请选择</option>
-    <option v-for="item in salaryGrade" :value="item.keywords" :key="item.keywords">{{ item.value}}</option>
-  </select>
+    姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<el-input type="text"  v-model="name" />&nbsp;&nbsp;&nbsp;&nbsp;
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<el-input v-model="age" />&nbsp;&nbsp;&nbsp;&nbsp;<br>
+    联系电话:<el-input v-model="phone" maxlength="11"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    通讯地址:<el-input v-model="commAddress" /><br/>
+    家庭地址:<el-input v-model="homeAddress" />&nbsp;&nbsp;&nbsp;&nbsp;
+    薪资等级:<el-select v-model="salary" @change="salaryChange()">
+    <el-option>请选择</el-option>
+    <el-option v-for="item in salaryGrade" :value="item.keywords"  :label="item.value" :key="item.keywords"></el-option>
+  </el-select>
     <br/>
-    状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:<select v-model="status">
-    <option>请选择</option>
-    <option v-for="item in statuss" :value="item.key" :key="item.keywords">{{ item.value}}</option>
-  </select>
+    状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:<el-select v-model="status">
+    <el-option>请选择</el-option>
+    <el-option v-for="item in statuss" :value="item.key"  :label="item.value" :key="item.key"></el-option>
+  </el-select>
     <br/>
-    <div v-if="show">变更理由:<input  v-model="reason"/></div><br/>
-    <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
+    <div v-if="show">变更理由:<el-input  v-model="reason" /></div><br/>
+    <el-button style="margin-left: 250px" @click="sub()">提        交</el-button>
   </div>
 
 </template>
@@ -74,7 +74,7 @@ export default {
         that.homeAddress = res.data.obj.homeAddress
         that.commAddress = res.data.obj.commAddress
         that.b_salary = res.data.obj.salaryGrade
-        that.status = res.data.obj.status
+        that.status = that.statuss.res.data.obj.status
       })
     },
     sub: function () {
