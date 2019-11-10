@@ -1,24 +1,34 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png"> -->
-    <router-view/>
+    <!-- 其他页 -->
+    <el-container >
+      <el-header>
+        <!-- 导航栏 -->
+        <header-nav></header-nav>
+      </el-header>
+      <el-container>
+        <el-aside  width="250px">
+          <!-- 侧边栏 -->
+          <left></left>
+        </el-aside>
+        <el-main>
+          <!-- Body -->
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
+import header from './components/Header.vue'
+import left from './components/Left.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    headerNav: header,
+    left: left
+  }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: ;
-  color: #2c3e50;
-  margin-top: 60px;
-  margin-left: 60px;
-}
-</style>

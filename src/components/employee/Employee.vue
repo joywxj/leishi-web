@@ -1,48 +1,89 @@
 <template>
   <div>
-    <h1 align="center">员工查询</h1>
-    姓名:<input type="text"  v-model="name" />
-    身份证号:<input v-model="identity" maxlength="18">
-    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<input v-model="age">
-    联系电话:<input v-model="phone" maxlength="11" >
-    薪资等级:<select v-model="salary">
-    <option>请选择</option>
-    <option v-for="item in salaryGrade" v-bind:key="item.keywords" v-bind:value="item.keywords">{{ item.value}}</option>
-  </select>&nbsp;
-    <input type="button" @click="queryEmployee()" value="查   询" />
+    <el-page-header style="height: 50px" @back="goBack" title="返回"  content="员工信息">
+    </el-page-header>
+    姓名:<el-input type="text"  v-model="name"></el-input>
+    身份证号:<el-input v-model="identity" maxlength="18"></el-input>
+    年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄:<el-input v-model="age"></el-input>
+    联系电话:<el-input v-model="phone" maxlength="11" class="el-input" ></el-input>
+    <br />
+    薪资等级:<el-select v-model="salary">
+      <el-option
+        v-for="item in salaryGrade"
+        :key="item.keywords"
+        :label="item.value"
+        :value="item.keywords">
+      </el-option>
+    </el-select>
+    <el-button  type="primary" icon="el-icon-search" @click="queryEmployee()">查   询</el-button>
     <div>
+      <el-table
+      :data="sites"
+      style="width: 100% ;align-content: center;align-items: center">
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="80px"
+          style="header-align: center">
+        </el-table-column>
+        <el-table-column
+          prop="age"
+          label="年龄"
+          width="50px">
+        </el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话号码"
+          width="115px"/>
+        <el-table-column
+          prop="identity"
+          label="身份证号"
+          width="175px"
+          header-align="center"/>
+        <el-table-column
+          prop="userName"
+          label="用户名"
+          width="80px"/>
+        <el-table-column
+          prop="status"
+          label="状态"
+          width="50px"/>
+        <el-table-column
+          prop="updateTime"
+          label="修改时间"
+          width="175px"
+          header-align="center"/>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="200"
+          header-align="center">
+          <template slot-scope="scope">
+            <el-button @click="bankInfo(scope.row.id)" type="text" size="small">银行信息</el-button>
+            <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="text" size="small">编辑</el-button>
+            <el-button icon="el-icon-delete" @click="remove(scope.row.id)" type="text" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <table>
         <tr align="center">
-          <td>姓名</td>
-          <td>年龄</td>
-          <td>电话号码</td>
-          <td>身份证号</td>
-          <td>登录用户名</td>
-          <td>状态</td>
-          <td>通讯地址</td>
-          <td>修改时间</td>
-          <td>银行信息</td>
-          <td>修改</td>
-          <td>删除</td>
+          <td colspan="11">
+            <div class="block">
+              <el-pagination align="center"
+                             background
+                             layout="prev, pager, next"
+                             :total="total">
+              </el-pagination>
+            </div>
+          </td>
         </tr>
-        <tr align="center" v-bind:key="site.id" v-for="site in sites">
-            <td>{{ site.name }}</td>
-            <td>{{ site.age }}</td>
-            <td>{{ site.phone }}</td>
-            <td>{{ site.identity }}</td>
-            <td>{{ site.userName }}</td>
-            <td>{{ site.status }}</td>
-            <td>{{ site.commAddress }}</td>
-            <td>{{ site.updateTime }}</td>
-          <td><button v-on:click="bankInfo(site.id)">查询银行信息</button></td>
-          <td><button v-on:click="update(site.id)">修改</button></td>
-          <td><button v-on:click="remove(site.id)">删除</button></td>
-          </tr>
       </table>
     </div>
   </div>
 </template>
-
+<style>
+  @import "../../assets/utils.css";
+</style>
 <script>
 import axios from 'axios'
 export default {
@@ -55,7 +96,9 @@ export default {
       salary: '',
       userName: '',
       age: '',
-      sites: []
+      sites: [],
+      total: 10,
+      pageSize: 10
     }
   },
   mounted () {
@@ -116,6 +159,8 @@ export default {
         age: this.age
       })).then(function (res) {
         that.sites = res.data.obj.list
+        that.total = res.data.obj.totalCount
+        that.pageSize = res.data.obj.pageSize
       })
     }
   }

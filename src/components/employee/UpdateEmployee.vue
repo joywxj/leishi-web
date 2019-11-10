@@ -40,9 +40,8 @@ export default {
       reason: '',
       b_salary: '',
       show: false,
-      statuss: {'key':1, value: '在职'},
-    {'key': 0,value: '离职'}],
-      status:''
+      statuss: [{'key': 1, value: '在职'}, {'key': 0, value: '离职'}],
+      status: ''
     }
   },
   mounted () {
@@ -52,7 +51,7 @@ export default {
   methods: {// 定义方法
     salaryChange: function () {
       // var that = this
-      this.show = (this.salary != this.b_salary)
+      this.show = (this.salary !== this.b_salary)
     },
     querySalary: function () {
       var that = this
@@ -79,7 +78,7 @@ export default {
       })
     },
     sub: function () {
-       var that = this
+      var that = this
       var qs = require('qs')
       axios.post('/kernel/employee/modify', qs.stringify({
         name: this.name,
@@ -92,7 +91,7 @@ export default {
         reason: this.reason
       })).then(function (res) {
         if (res.data.status === 1) {
-          that.$router.push({path:'Employee'});
+          that.$router.push({path: 'Employee'})
         } else {
           alert('修改失败')
         }

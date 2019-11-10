@@ -101,12 +101,12 @@ export default {
       )
     },
     queryBanks: function () {
-      var that = this;
-      axios.post('/kernel/bank/queryBanks').then(function (res){
+      var that = this
+      axios.post('/kernel/bank/queryBanks').then(function (res) {
         that.banks = res.data.obj
       })
     },
-    queryBank: function (){
+    queryBank: function () {
       var emdId = this.$route.query.id
       var that = this
       var qs = require('qs')

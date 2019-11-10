@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import index from '@/components/index'
 import Employee from '@/components/employee/Employee'
 import addEmp from '@/components/employee/AddEmployee'
 import updateEmployee from '@/components/employee/UpdateEmployee'
 import bank from '@/components/bank/Bank'
 import updateBank from '@/components/bank/updateBank'
 import addBank from '@/components/bank/AddBank'
-import timesheetindex from '@/components/timesheet/index'
+import ts from '@/components/timesheet/index'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'index',
+      component: index
     },
     {
       path: '/addEmp',
@@ -48,9 +48,9 @@ export default new Router({
       component: addBank
     },
     {
-      path: '/timesheet/index',
+      path: '/ts',
       name: 'timesheetindex',
-      component: timesheetindex
-}
+      component: ts
+    }
   ]
 })

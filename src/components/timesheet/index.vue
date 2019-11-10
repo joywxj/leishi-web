@@ -1,22 +1,14 @@
 <template>
   <div>
-    <div class="row">
-      <vue-tree
-        :tree-data="treeData"
-        v-model="ids"
-        :options="options"
-        @handle="handle"
-      />
-    </div>
     <h1 align="center">工时管理</h1>
     员工姓名:<input type="text"  v-model="emName" />
     工地名称:<select v-model="cstId">
     <option>请选择</option>
-    <option v-for="item in ems" v-bind:value="item.keywords">{{ item.value}}</option>
+    <option v-for="item in ems" v-bind:key="item.keywords" v-bind:value="item.keywords">{{ item.value}}</option>
   </select>&nbsp;
     年:<select v-model="year">
     <option>请选择</option>
-    <option v-for="item in yeararr" v-bind:value="item.key">{{ item.value}}</option>
+    <option v-for="item in yeararr" v-bind:key="item.key" v-bind:value="item.key">{{ item.value}}</option>
   </select>&nbsp;
     月:<select v-model="month">
     <option>请选择</option>
@@ -77,7 +69,7 @@
           <td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">修改</td>
           <td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">删除</td>
         </tr>
-        <tr align="center"  v-for="site in sites">
+        <tr align="center" v-bind:key="site.id" v-for="site in sites">
           <td>{{ site.emName }}</td>
           <td>{{ site.cstName }}</td>
           <td>{{ site.years }}</td>
@@ -122,94 +114,96 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  export default {
-    data () {
-      return {
-        emName: '',
-        cstId: '',
-        month: '',
-        count:1,
-        year: '',
-        ems: [],
-        yeararr:[],
-        sites:[],
-        file: ''
-      }
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      emName: '',
+      cstId: '',
+      month: '',
+      count: 1,
+      year: '',
+      ems: [],
+      yeararr: [],
+      sites: [],
+      file: ''
+    }
+  },
+  mounted () {
+    this.queryEmDic()
+    this.query()
+    this.getYear()
+  },
+  methods: {// 定义方法,
+    importFile: function () {
+      var that = this
+      var qs = require('qs')
+      alert(that.file)
+      axios.post('/kernel/work/importFile', qs.stringify({
+        // file: that.file
+      })).then(function (res) {
+        if (res.data.status === 1) {
+          alert('删除成功')
+          that.$router.go(0)
+        }
+      })
     },
-    mounted(){
-      this.queryEmDic()
-      this.query()
-      this.getYear()
+    getYear: function () {
+      var date = new Date()
+      var year = date.getFullYear()
+      this.yeararr = [{'key': year, value: year}, {'key': year - 1, value: year - 1}, {
+        'key': year - 2,
+        value: year - 2
+      }]
     },
-    methods: {//定义方法,
-      importFile: function () {
-        var that = this
-        var qs = require('qs')
-        alert(that.file)
-          axios.post('/kernel/work/importFile' , qs.stringify({
-         // file: that.file
-        })).then(function(res){
-          if(res.data.status == 1){
-            alert('删除成功');
-            that.$router.go(0);
-          }
-        })
-      },
-      getYear: function (){
-        var date = new Date();
-        var year = date.getFullYear()
-        this.yeararr = [{'key':year,value:year},{'key':year-1,value:year-1},{'key':year-2,value:year-2}]
-      },
-      remove: function (id) {
-        var that = this;
-        var qs = require('qs');
-
-        axios.post('/kernel/work/remove',qs.stringify({
-          id:id
-        })).then(function(res){
-          if(res.data.status == 1){
-            alert('删除成功');
-            that.$router.go(0);
-          }
-        })
-      },
-      update: function (id){
-        var that = this;
-        setTimeout(
-          function () {
-            that.$router.push({path:'conUpdate',query:{'id':id}});
-          }
-        )
-      },
-      queryEmDic: function () {
-        var that = this
-        axios.post('/kernel/work/getWorkDict').then(function (res) {
-          that.ems = res.data.obj
-        })
-      },
-      query: function (){
-        var that=this;
-        var qs = require('qs');
-        if(that.cstId == '请选择'){
-          that.cstId = ''
+    remove: function (id) {
+      var that = this
+      var qs = require('qs')
+      axios.post('/kernel/work/remove', qs.stringify({
+        id: id
+      })).then(function (res) {
+        if (res.data.status === 1) {
+          alert('删除成功')
+          that.$router.go(0)
         }
-        if(that.year == '请选择'){
-          that.year = ''
+      })
+    },
+    update: function (id) {
+      var that = this
+      setTimeout(
+        function () {
+          that.$router.push({path: 'conUpdate', query: {'id': id}})
         }
-        if(that.month == '请选择'){
-          that.month = ''
-        }
-        axios.post('/kernel/timesheet/query',qs.stringify({
-          emName: that.emName,
-          cstId: that.cstId,
-          years: that.year,
-          months: that.month
-        })).then(function (res){
-          that.sites = res.data.obj.list
-          that.count = res.data.obj.totalCount
-        })
+      )
+    },
+    queryEmDic: function () {
+      var that = this
+      axios.post('/kernel/work/getWorkDict').then(function (res) {
+        that.ems = res.data.obj
+      })
+    },
+    query: function () {
+      var that = this
+      var qs = require('qs')
+      if (that.cstId === '请选择') {
+        that.cstId = ''
       }
+      if (that.year === '请选择') {
+        that.year = ''
+      }
+      if (that.month === '请选择') {
+        that.month = ''
+      }
+      axios.post('/kernel/timesheet/query', qs.stringify({
+        emName: that.emName,
+        cstId: that.cstId,
+        years: that.year,
+        months: that.month
+      })).then(function (res) {
+        that.sites = res.data.obj.list
+        that.count = res.data.obj.totalCount
+      })
     }
   }
+}
 </script>
