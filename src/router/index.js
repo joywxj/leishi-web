@@ -8,6 +8,8 @@ import bank from '@/components/bank/Bank'
 import updateBank from '@/components/bank/updateBank'
 import addBank from '@/components/bank/AddBank'
 import ts from '@/components/timesheet/index'
+import lettery from '@/components/lettery'
+
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,11 @@ export default new Router({
       path: '/ts',
       name: 'timesheetindex',
       component: ts
+    },
+    {
+      path: '/lettery',
+      name: 'lettery',
+      component: lettery
     }
   ]
 })
