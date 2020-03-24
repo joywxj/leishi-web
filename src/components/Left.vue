@@ -34,8 +34,8 @@ export default {
         title: '借支管理',
         path: '/Menu/Page3'
       }, {
-        title: '',
-        path: '/Menu/Page4'
+        title: '彩票',
+        path: '/lettery'
       }]
     }
   }
