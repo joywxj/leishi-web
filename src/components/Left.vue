@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-aside width="100%">
-      <!-- background-color="#409EFF" -->
           <el-menu
             default-active="4"
             class="el-menu-vertical-demo"
