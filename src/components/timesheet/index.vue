@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 align="center">工时管理</h1>
-    员工姓名:<input type="text"  v-model="emName" />
+    员工姓名:<el-input type="text"  v-model="emName" />
     工地名称:<select v-model="cstId">
     <option>请选择</option>
     <option v-for="item in ems" v-bind:key="item.keywords" v-bind:value="item.keywords">{{ item.value}}</option>
