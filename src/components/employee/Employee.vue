@@ -8,9 +8,9 @@
     薪资等级:<el-select v-model="salary">
       <el-option
         v-for="item in salaryGrade"
-        :key="item.keywords"
-        :label="item.value"
-        :value="item.keywords">
+        :key="item.paramCode"
+        :label="item.showValue"
+        :value="item.showValue">
       </el-option>
     </el-select>
     <el-button  type="primary" icon="el-icon-search" @click="queryEmployee()">查   询</el-button>
@@ -134,7 +134,10 @@ export default {
     },
     querySalary: function () {
       var that = this
-      axios.post('/kernel/employee/salaryGrade').then(function (res) {
+      var qs = require('qs')
+      axios.post('/kernel/dictionary/query', qs.stringify({
+        typeCode: 'salary'
+      })).then(function (res) {
         that.salaryGrade = res.data.obj
       })
     },
