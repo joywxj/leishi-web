@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/components/index'
-import Employee from '@/components/employee/Employee'
-import addEmp from '@/components/employee/AddEmployee'
-import updateEmployee from '@/components/employee/UpdateEmployee'
-import bank from '@/components/bank/Bank'
-import updateBank from '@/components/bank/updateBank'
-import addBank from '@/components/bank/AddBank'
-import ts from '@/components/timesheet/index'
-import lettery from '@/components/lettery'
+import index from '@/view/index'
+import Employee from '@/view/employee/index'
+import addEmp from '@/view/employee/AddEmployee'
+import updateEmployee from '@/view/employee/UpdateEmployee'
+import bank from '@/view/bank/Bank'
+import updateBank from '@/view/bank/updateBank'
+import addBank from '@/view/bank/AddBank'
+import ts from '@/view/timesheet/index'
+import lettery from '@/view/lettery'
 
 Vue.use(Router)
 

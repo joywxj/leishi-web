@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import header from './components/Header.vue'
-import left from './components/Left.vue'
+import header from './view/Header.vue'
+import left from './view/Left.vue'
 
 export default {
   name: 'App',
