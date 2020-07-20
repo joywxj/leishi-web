@@ -1,38 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
-import Employee from '@/view/employee/index'
-import addEmp from '@/view/employee/AddEmployee'
-import updateEmployee from '@/view/employee/UpdateEmployee'
+
 import bank from '@/view/bank/Bank'
 import updateBank from '@/view/bank/updateBank'
 import addBank from '@/view/bank/AddBank'
 import ts from '@/view/timesheet/index'
 import lettery from '@/view/lettery'
-
+import employee from './src/employee.router'
 Vue.use(Router)
 
-export default new Router({
+const router = {
   routes: [
     {
       path: '/',
       name: 'index',
       component: index
-    },
-    {
-      path: '/addEmp',
-      name: 'addEmp',
-      component: addEmp
-    },
-    {
-      path: '/Employee',
-      name: 'Employee',
-      component: Employee
-    },
-    {
-      path: '/updateEmployee',
-      name: 'updateEmployee',
-      component: updateEmployee
     },
     {
       path: '/bank',
@@ -58,6 +41,22 @@ export default new Router({
       path: '/lettery',
       name: 'lettery',
       component: lettery
+    },
+    {
+      path: '/addEmp',
+      name: 'addEmp',
+      component: () => import('@/view/employee/edit')
+    },
+    {
+      path: '/Employee',
+      name: 'Employee',
+      component: () => import('@/view/employee/index')
+    },
+    {
+      path: '/updateEmployee',
+      name: 'updateEmployee',
+      component: () => import('@/view/employee/UpdateEmployee')
     }
   ]
-})
+}
+export default new Router(router)

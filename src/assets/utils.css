@@ -1,12 +1,23 @@
-.el-input {
-  width: 150px;
-}
 .el-table-column {
   header-align: "center";
 }
 .form {
   width: 800px;
+  /*background-color: red;*/
+}
+
+.form-col:first-of-type .order-form-item {
+  border-top: 1px solid #edeff2;
 }
 .form input {
   width: 300px;
+}
+.form content lable {
+  width: 40%;
+}
+.form content {
+  width: 800px;
+}
+.form content content {
+  width: 60%;
 }

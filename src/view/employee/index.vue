@@ -2,13 +2,25 @@
   <div>
     <el-page-header style="height: 50px" @back="goBack" title="返回"  content="员工信息">
     </el-page-header>
-    姓名:<el-input type="text"  v-model="name"></el-input>
-    身份证号:<el-input v-model="identity" maxlength="18"></el-input>
-    联系电话:<el-input v-model="phone" maxlength="11" class="el-input" ></el-input>
-    <el-button  type="primary" icon="el-icon-search" @click="queryEmployee()">查   询</el-button>
+    <el-form inline="true">
+      <el-row>
+        <el-form-item label="姓名">
+          <el-input type="text"  v-model="name"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号">
+          <el-input v-model="identity" maxlength="18"></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话">
+          <el-input v-model="phone" maxlength="11" class="el-input" ></el-input>
+        </el-form-item>
+        <el-button  type="primary" icon="el-icon-search" @click="queryEmployee()">查   询</el-button>
+        <el-button  type="primary" icon="el-icon-plus" @click="add()">新增</el-button>
+
+      </el-row>
+    </el-form>
     <div>
       <el-table
-      :data="sites"
+      :data="list"
       style="width: 100% ;align-content: center;align-items: center"
       empty-text="暂无数据"
       >
@@ -48,12 +60,12 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="200"
+          width="300"
           header-align="center">
           <template slot-scope="scope">
-            <el-button @click="bankInfo(scope.row.id)" type="text" size="small">银行信息</el-button>
-            <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="text" size="small">编辑</el-button>
-            <el-button icon="el-icon-delete" @click="remove(scope.row.id)" type="text" size="small">删除</el-button>
+            <el-button icon="el-icon-bank-card" @click="bankInfo(scope.row.id)" type="primary" size="small">银行信息</el-button>
+            <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="primary" size="small">编辑</el-button>
+            <el-button icon="el-icon-delete" @click="remove(scope.row.id)" type="primary" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -82,7 +94,7 @@ export default {
       salary: '',
       userName: '',
       age: '',
-      sites: [],
+      list: [],
       total: 10,
       pageSize: 10
     }
@@ -92,7 +104,7 @@ export default {
     this.queryEmployee()
   },
   methods: {// 定义方法,
-    remove: function (id) {
+    remove (id) {
       var that = this
       var qs = require('qs')
       axios.post('/kernel/employee/remove', qs.stringify({
@@ -104,7 +116,7 @@ export default {
         }
       })
     },
-    bankInfo: function (id) {
+    bankInfo (id) {
       var that = this
       setTimeout(
         function () {
@@ -114,7 +126,7 @@ export default {
         }
       )
     },
-    update: function (id) {
+    update (id) {
       var that = this
       setTimeout(
         function () {
@@ -124,7 +136,7 @@ export default {
         }
       )
     },
-    querySalary: function () {
+    querySalary () {
       var that = this
       var qs = require('qs')
       axios.post('/kernel/dictionary/query', qs.stringify({
@@ -133,7 +145,7 @@ export default {
         that.salaryGrade = res.data.obj
       })
     },
-    queryEmployee: function () {
+    queryEmployee () {
       var that = this
       var qs = require('qs')
       if (this.salary === '请选择') {
@@ -147,10 +159,20 @@ export default {
         userName: this.userName,
         age: this.age
       })).then(function (res) {
-        that.sites = res.data.obj.list
+        that.list = res.data.obj.list
         that.total = res.data.obj.totalCount
         that.pageSize = res.data.obj.pageSize
       })
+    },
+    add () {
+      var that = this
+      setTimeout(
+        function () {
+          that.$router.push({
+            path: 'addEmp'
+          })
+        }
+      )
     }
   }
 }
