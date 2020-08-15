@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
 
-import bank from '@/view/bank/Bank'
+import bank from '@/view/bank/index'
 import updateBank from '@/view/bank/updateBank'
 import addBank from '@/view/bank/AddBank'
 import ts from '@/view/timesheet/index'
 import lettery from '@/view/lettery'
-import employee from './src/employee.router'
+
 Vue.use(Router)
 
 const router = {

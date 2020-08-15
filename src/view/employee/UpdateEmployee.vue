@@ -40,7 +40,7 @@
             </el-select>
           </el-form-item>
           <el-form-item v-if="show" label="变更理由">
-            <el-input  v-model="reason" />
+            <el-input v-model="employee.reason"/>
           </el-form-item>
         </div>
         <el-form-item>

@@ -1,29 +1,56 @@
 <template>
   <!-- 修改员工 -->
   <div>
-    <h1 align="center">银行卡信息</h1>
-    {{name}} ,你好，您正在添加银行卡信息<br>
-    银行卡号:<input type="text"  v-model="bankCard" />
-    银行名称:<select v-model="bankName">
-    <option>请选择</option>
-    <option v-for="item in banks" :value="item.value" :key="item.value">{{ item.value}}</option>
-  </select>
-    <br>
-    银行地址:<input v-model="bankAddress">
-    开  户  行:<input v-model="bankDeposit">&nbsp;&nbsp;&nbsp;
-    <br/>
-    状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:<select v-model="sign">
-    <option>请选择</option>
-    <option v-for="item in statuss" :value="item.key" :key="item.keywords">{{ item.value}}</option>
-  </select>
-    <br/>
-    <input style="margin-left: 250px" type="button" @click="sub()" value="提        交" />
+    <h1 align="center">{{name}} ,你好，您正在添加银行卡信息</h1>
+    <div class="form-col">
+      <el-form :inline="true" :label-position="labelPosition" :model="bank" class="from" label-width="80px">
+        <div class="form content">
+          <el-form-item label="银行卡号">
+            <el-input type="text" v-model="bank.bankCard"/>
+          </el-form-item>
+          <el-form-item label="银行名称">
+            <el-select v-model="bankName">
+              <el-option>请选择</el-option>
+              <el-option
+                :key="item.paramCode"
+                :label="item.showValue"
+                :value="item.paramCode"
+                v-for="item in bankTypeDict"></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="form content">
+          <el-form-item label="银行地址">
+            <el-input v-model="bank.bankAddress"/>
+          </el-form-item>
+          <el-form-item label="开户行">
+            <el-input v-model="bank.bankDeposit"/>
+          </el-form-item>
+        </div>
+        <div class="form content">
+          <el-form-item label="状态">
+            <el-select v-model="bank.sign">
+              <el-option
+                :key="item.keywords"
+                :label="item.value"
+                :value="item.key"
+                v-for="item in statuss">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <el-form-item>
+          <el-button @click="sub()" style="margin-left: 250px" type="primary">提 交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 
 </template>
 
 <script>
 import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -34,7 +61,9 @@ export default {
       sign: 1,
       id: '',
       name: '',
-      banks: [],
+      bankTypeDict: [],
+      bank: {},
+      labelPosition: 'right',
       statuss: [{'key': 1, value: '常用'}, {'key': 0, value: '备用'}]
     }
   },
@@ -55,29 +84,35 @@ export default {
     },
     querySalary: function () {
       var that = this
-      axios.post('/kernel/bank/queryBanks').then(function (res) {
-        that.banks = res.data.obj
+      var qs = require('qs')
+      axios.post('/kernel/dictionary/query', qs.stringify({typeCode: 'bank'})).then(function (res) {
+        that.bankTypeDict = res.data.obj
       })
     },
     sub: function () {
       var emId = this.$route.query.id
       var that = this
+      that.bank.emId = emId
       var qs = require('qs')
-      axios.post('/kernel/bank/add', qs.stringify({
-        bankCard: this.bankCard,
-        bankName: this.bankName,
-        bankDeposit: this.bankDeposit,
-        bankAddress: this.bankAddress,
-        sign: this.sign,
-        emId: emId
-      })).then(function (res) {
+      axios.post('/kernel/bank/add', qs.stringify(that.bank)).then(function (res) {
         if (res.data.status === 1) {
           that.$router.push({path: 'bank', query: {'id': emId}})
         } else {
-          alert('修改失败')
+          this.$message({
+            message: '更新失败',
+            type: 'error'
+          })
         }
+      }).catch(error => {
+        this.$message({
+          message: error.data.message,
+          type: 'error'
+        })
       })
     }
   }
 }
 </script>
+<style>
+  @import '../../assets/utils.css';
+</style>
