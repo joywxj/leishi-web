@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header><font color="409EFF">欢迎来到雷氏工地管理系统</font> </el-header>
+      <el-header><font color="409EFF">欢迎来到军朝集团</font> </el-header>
       <router-link :to="Employee">修改密码</router-link>
     </el-container>
   </div>
