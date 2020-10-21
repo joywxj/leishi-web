@@ -7,7 +7,7 @@
             router="true"
             text-color="#409EFF"
             active-text-color="#ffd04b">
-            <template  v-for="(item, index) in nav_menu_data">
+            <template  v-for="(item, index) in menuList">
               <el-menu-item :index = "item.path" :key = "index">
                 {{item.title}}
               </el-menu-item>
@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       path: '',
-      nav_menu_data: [{
+      menuList: [{
         title: '员工管理',
         path: '/Employee'
       }, {
@@ -31,7 +31,7 @@ export default {
         path: '/ts'
       }, {
         title: '借支管理',
-        path: '/Menu/Page3'
+        path: '/advance'
       }, {
         title: '彩票',
         path: '/lettery'

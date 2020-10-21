@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import moment from 'moment'
 // eslint-disable-next-line import/no-duplicates
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -167,7 +168,7 @@ Vue.use(Calendar)
 Vue.use(Backtop)
 Vue.use(PageHeader)
 Vue.use(CascaderPanel)
-
+Vue.use(moment)
 Vue.use(Loading.directive)
 
 Vue.prototype.$loading = Loading.service

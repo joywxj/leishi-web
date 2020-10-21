@@ -33,7 +33,7 @@
             <el-input type="password" v-model="employee.pwd" @blur="verifyPassword" />
           </el-form-item>
           <el-form-item label="薪资等级">
-            <el-select v-model="employee.salaryGrade">
+            <el-select>
               <el-option
                 v-for="item in salaryGrade"
                 :key="item.paramCode"
@@ -150,7 +150,7 @@ export default {
         typeCode: 'salary'
       }
       var qs = require('qs')
-      axios.post('/kernel/dictionary/query', qs.stringify(params)).then(function (res) {
+      axios.post('/kernel/dictionary/list', qs.stringify(params)).then(function (res) {
         that.salaryGrade = res.data.obj
       })
     },

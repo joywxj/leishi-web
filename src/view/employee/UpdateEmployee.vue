@@ -89,7 +89,7 @@ export default {
     querySalary: function () {
       var that = this
       var qs = require('qs')
-      axios.post('/kernel/dictionary/query', qs.stringify(
+      axios.post('/kernel/dictionary/list', qs.stringify(
         {typeCode: 'salary'}
       )).then(function (res) {
         that.salaryDict = res.data.obj

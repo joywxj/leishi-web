@@ -55,6 +55,7 @@
         <el-table-column
           prop="updateTime"
           label="修改时间"
+          :formatter="timestampToTime"
           width="175px"
           header-align="center"/>
         <el-table-column
@@ -84,6 +85,7 @@
 </style>
 <script>
 import axios from 'axios'
+import moment from 'moment' //导入文件
 export default {
   data () {
     return {
@@ -104,6 +106,17 @@ export default {
     this.queryEmployee()
   },
   methods: {// 定义方法,
+    timestampToTime (row, column) {
+      // var date = row[column.property];
+      // if (date === undefined) {
+      //   return "";
+      // }
+      let format = "YYYY-MM-DD HH:mm:ss";
+     var time = moment(row.updateTime).format(format)
+      return time
+      // var moment = require("moment");
+      // return moment(date).format("YYYY-MM-DD HH:mm:ss");
+    },
     remove (id) {
       var that = this
       var qs = require('qs')
@@ -157,7 +170,9 @@ export default {
         phone: this.phone,
         salaryGrade: this.salary,
         userName: this.userName,
-        age: this.age
+        age: this.age,
+        page: 1,
+        size: 10
       })).then(function (res) {
         that.list = res.data.obj.list
         that.total = res.data.obj.totalCount
