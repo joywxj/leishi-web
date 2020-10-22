@@ -23,7 +23,7 @@
     </el-form>
     <div>
       <el-table
-        :data="sites"
+        :data="list"
         empty-text="暂无数据"
         style="width: 100% ;align-content: center;align-items: center">
         <el-table-column
@@ -81,7 +81,7 @@ export default {
     return {
       name: '',
       banks: [],
-      sites: [],
+      list: [],
       bank: {
         bankName: ''
       }
@@ -181,7 +181,7 @@ export default {
         page:1,
         size: 10,
       })).then(function (res) {
-        that.sites = res.data.obj.list
+        that.list = res.data.obj.list
       })
     }
   }
