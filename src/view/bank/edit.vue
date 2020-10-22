@@ -53,14 +53,31 @@ import axios from 'axios'
 
 export default {
   data () {
+    var verifybankCark = () => {
+      var regex = new RegExp('([0-9]{17}([0-9]|X|x))|([0-9]{15})')
+      if (!regex.test(this.bank.bankCard)) {
+        this.$message({
+          type: 'error',
+          message: '亲爱的，你的银行卡号格式不对哦^_^'
+        })
+        return false
+      }
+    }
     return {
       bankAddress: '',
       bankCard: '',
       bankName: '',
       bankDeposit: '',
       sign: 1,
+      emId: '',
       id: '',
       name: '',
+      bankRules: {
+        bankCard: [
+          {required: true, message: '银行卡号不能为空', trigger: 'blur'},
+          {validator: verifybankCark, trigger: 'blur'}
+        ]
+      },
       bankTypeDict: [],
       bank: {},
       labelPosition: 'right',
@@ -68,11 +85,15 @@ export default {
     }
   },
   mounted () {
-
     this.querySalary()
+    this.queryBankTypeDict()
     this.queryEmployee()
     let id = this.$route.query.id
     if (id) {
+      this.querybank()
+    }
+    this.id = this.$route.query.id
+    if (this.id !== '') {
       this.querybank()
     }
   },
@@ -83,14 +104,14 @@ export default {
       var that = this
       var qs = require('qs')
       axios.post('/kernel/bank/query', qs.stringify(
-        {id: id,page: 1, size: 10}
+        {id: id, page: 1, size: 10}
       )).then(function (res) {
         if (res.data.obj.list[0].sign === '常用') {
           that.sign = 1
         } else {
           that.sign = 0
         }
-        that.bank= res.data.obj.list[0]
+        that.bank = res.data.obj.list[0]
         // that.name = res.data.obj.list[0].emId
       })
     },

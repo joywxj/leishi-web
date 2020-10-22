@@ -179,8 +179,8 @@ export default {
         emId: emdId,
         bankCard: this.bankCard,
         bankName: this.bank.bankName,
-        page:1,
-        size: 10,
+        page: 1,
+        size: 10
       })).then(function (res) {
         that.list = res.data.obj.list
       })

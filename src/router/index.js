@@ -4,7 +4,6 @@ import index from '@/view/index'
 
 import bank from '@/view/bank/index'
 import updateBank from '@/view/bank/updateBank'
-import addBank from '@/view/bank/AddBank'
 import ts from '@/view/timesheet/index'
 import lettery from '@/view/lettery'
 
@@ -28,9 +27,9 @@ const router = {
       component: updateBank
     },
     {
-      path: '/addBank',
+      path: '/bank/edit',
       name: 'addBank',
-      component: addBank
+      component: '@/view/bank/edit'
     },
     {
       path: '/ts',
