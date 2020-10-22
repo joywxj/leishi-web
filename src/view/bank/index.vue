@@ -4,7 +4,7 @@
     <el-form inline="true" model="bank">
       <el-row>
         <el-form-item label="银行名称">
-          <el-select v-model="bank.bankName">
+          <el-select clearable v-model="bank.bankName">
             <el-option
               :key="item.paramCode"
               :label="item.showValue"
@@ -23,44 +23,50 @@
     </el-form>
     <div>
       <el-table
-        :data="list"
+        :data="sites"
         empty-text="暂无数据"
         style="width: 100% ;align-content: center;align-items: center">
         <el-table-column
           label="银行名称"
           prop="bankName"
+          :formatter="formatBankName"
           style="header-align: center"
           width="80px">
         </el-table-column>
         <el-table-column
-          label="开户行"
+          label="银行卡号"
           prop="bankCard"
-          style="header-align: center"
-          width="80px">
+          header-align="center"
+          width="180px">
         </el-table-column>
         <el-table-column
           label="开户行"
-          prop="bankCard"
-          style="header-align: center"
-          width="80px">
+          prop="bankDeposit"
+          header-align="center"
+          width="100px">
         </el-table-column>
         <el-table-column
           label="银行地址"
-          prop="bankName"
-          style="header-align: center"
-          width="80px">
+          prop="bankAddress"
+          header-align="center"
+          width="300px">
         </el-table-column>
         <el-table-column
           label="类型"
-          prop="bankName"
+          prop="sign"
+          :formatter="formatSign"
           style="header-align: center"
           width="80px">
         </el-table-column>
         <el-table-column
-          label="银行名称"
-          prop="bankName"
-          style="header-align: center"
-          width="80px">
+          fixed="right"
+          label="操作"
+          width="300"
+          header-align="center">
+          <template slot-scope="scope">
+            <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="primary" size="small">编辑</el-button>
+            <el-button icon="el-icon-delete" @click="remove(scope.row.id)" type="primary" size="small">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -69,6 +75,7 @@
 
 <script>
 import axios from 'axios'
+// import {formatDict} from '.../utils/utils.js'
 export default {
   data () {
     return {
@@ -86,6 +93,19 @@ export default {
     this.queryEmployee()
   },
   methods: {// 定义方法,
+    formatBankName (row) {
+      // return formatDict(row.bankName, this.banks)
+      let result = ''
+      this.banks.forEach(item => {
+        if (row.bankName === item.paramCode) {
+          result = item.showValue
+        }
+      })
+      return result
+    },
+    formatSign (row) {
+      return row.sign === 0 ? '常用' : '备用'
+    },
     back: function () {
       this.$router.push({path: 'Employee'})
     },
@@ -104,7 +124,7 @@ export default {
       var that = this
       setTimeout(
         function () {
-          that.$router.push({path: 'addBank', query: {'id': emId}})
+          that.$router.push({path: 'addBank', query: {'emId': emId}})
         }
       )
     },
@@ -127,7 +147,7 @@ export default {
         function () {
           that.$router.push(
             {
-              path: 'updateBank',
+              path: 'addBank',
               query: {
                 'id': id,
                 'emId': emId
@@ -143,7 +163,7 @@ export default {
         typeCode: 'bank'
       }
       var qs = require('qs')
-      axios.post('/kernel/dictionary/query', qs.stringify(params)).then(function (res) {
+      axios.post('/kernel/dictionary/list', qs.stringify(params)).then(function (res) {
         that.banks = res.data.obj
       })
     },
@@ -157,7 +177,9 @@ export default {
       axios.post('/kernel/bank/query', qs.stringify({
         emId: emdId,
         bankCard: this.bankCard,
-        bankName: this.bankName
+        bankName: this.bank.bankName,
+        page:1,
+        size: 10,
       })).then(function (res) {
         that.sites = res.data.obj.list
       })

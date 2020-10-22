@@ -85,7 +85,7 @@
 </style>
 <script>
 import axios from 'axios'
-import moment from 'moment' //导入文件
+import moment from 'moment' // 导入文件
 export default {
   data () {
     return {
@@ -107,15 +107,10 @@ export default {
   },
   methods: {// 定义方法,
     timestampToTime (row, column) {
-      // var date = row[column.property];
-      // if (date === undefined) {
-      //   return "";
-      // }
-      let format = "YYYY-MM-DD HH:mm:ss";
-     var time = moment(row.updateTime).format(format)
+      let format = 'YYYY-MM-DD HH:mm:ss'
+      var time = moment(row.updateTime).format(format)
       return time
-      // var moment = require("moment");
-      // return moment(date).format("YYYY-MM-DD HH:mm:ss");
+
     },
     remove (id) {
       var that = this

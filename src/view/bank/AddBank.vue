@@ -1,7 +1,7 @@
 <template>
   <!-- 修改员工 -->
   <div>
-    <h1 align="center">{{name}} ,你好，您正在添加银行卡信息</h1>
+    <h1 align="center">{{name}} ,你好，您正在维护您的银行卡信息</h1>
     <div class="form-col">
       <el-form :inline="true" :label-position="labelPosition" :model="bank" class="from" label-width="80px">
         <div class="form content">
@@ -9,7 +9,7 @@
             <el-input type="text" v-model="bank.bankCard"/>
           </el-form-item>
           <el-form-item label="银行名称">
-            <el-select v-model="bankName">
+            <el-select v-model="bank.bankName">
               <el-option>请选择</el-option>
               <el-option
                 :key="item.paramCode"
@@ -68,12 +68,34 @@ export default {
     }
   },
   mounted () {
+
     this.querySalary()
     this.queryEmployee()
+    let id = this.$route.query.id
+    if (id) {
+      this.querybank()
+    }
   },
   methods: {// 定义方法
+    querybank: function () {
+      var id = this.$route.query.id
+      this.id = id
+      var that = this
+      var qs = require('qs')
+      axios.post('/kernel/bank/query', qs.stringify(
+        {id: id,page: 1, size: 10}
+      )).then(function (res) {
+        if (res.data.obj.list[0].sign === '常用') {
+          that.sign = 1
+        } else {
+          that.sign = 0
+        }
+        that.bank= res.data.obj.list[0]
+        // that.name = res.data.obj.list[0].emId
+      })
+    },
     queryEmployee: function () {
-      var emId = this.$route.query.id
+      var emId = this.$route.query.emId
       var that = this
       var qs = require('qs')
       axios.post('/kernel/employee/queryEmpById', qs.stringify(
@@ -85,16 +107,17 @@ export default {
     querySalary: function () {
       var that = this
       var qs = require('qs')
-      axios.post('/kernel/dictionary/query', qs.stringify({typeCode: 'bank'})).then(function (res) {
+      axios.post('/kernel/dictionary/list', qs.stringify({typeCode: 'bank'})).then(function (res) {
         that.bankTypeDict = res.data.obj
       })
     },
     sub: function () {
-      var emId = this.$route.query.id
+      var emId = this.$route.query.emId
       var that = this
       that.bank.emId = emId
       var qs = require('qs')
-      axios.post('/kernel/bank/add', qs.stringify(that.bank)).then(function (res) {
+      let url = this.$route.query.id ? '/kernel/bank/modify' : '/kernel/bank/add'
+      axios.post(url, qs.stringify(that.bank)).then(function (res) {
         if (res.data.status === 1) {
           that.$router.push({path: 'bank', query: {'id': emId}})
         } else {

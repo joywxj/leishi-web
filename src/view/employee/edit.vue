@@ -33,7 +33,7 @@
             <el-input type="password" v-model="employee.pwd" @blur="verifyPassword" />
           </el-form-item>
           <el-form-item label="薪资等级">
-            <el-select>
+            <el-select v-model="employee.salaryGrade">
               <el-option
                 v-for="item in salaryGrade"
                 :key="item.paramCode"
