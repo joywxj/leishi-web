@@ -98,6 +98,7 @@ export default {
       age: '',
       list: [],
       total: 10,
+      pageIndex: 1,
       pageSize: 10
     }
   },
@@ -163,15 +164,13 @@ export default {
         name: this.name,
         identity: this.identity,
         phone: this.phone,
-        salaryGrade: this.salary,
-        userName: this.userName,
-        age: this.age,
-        page: 1,
-        size: 10
+        page: this.pageIndex,
+        size: this.pageSize
       })).then(function (res) {
         that.list = res.data.obj.list
         that.total = res.data.obj.totalCount
         that.pageSize = res.data.obj.pageSize
+        that.pageIndex = res.data.obj.pageIndex
       })
     },
     add () {

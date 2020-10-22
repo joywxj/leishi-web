@@ -30,39 +30,40 @@
           label="银行名称"
           prop="bankName"
           :formatter="formatBankName"
-          style="header-align: center"
+          align="center"
           width="80px">
         </el-table-column>
         <el-table-column
           label="银行卡号"
           prop="bankCard"
-          header-align="center"
+          align="center"
           width="180px">
         </el-table-column>
         <el-table-column
           label="开户行"
           prop="bankDeposit"
-          header-align="center"
+          align="center"
           width="100px">
         </el-table-column>
         <el-table-column
           label="银行地址"
           prop="bankAddress"
-          header-align="center"
+          align="center"
           width="300px">
         </el-table-column>
         <el-table-column
           label="类型"
           prop="sign"
           :formatter="formatSign"
-          style="header-align: center"
+          align="center"
           width="80px">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
           width="300"
-          header-align="center">
+          align="center"
+        >
           <template slot-scope="scope">
             <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="primary" size="small">编辑</el-button>
             <el-button icon="el-icon-delete" @click="remove(scope.row.id)" type="primary" size="small">删除</el-button>
@@ -104,7 +105,7 @@ export default {
       return result
     },
     formatSign (row) {
-      return row.sign === 0 ? '常用' : '备用'
+      return row.sign === '1' ? '常用' : '备用'
     },
     back: function () {
       this.$router.push({path: 'Employee'})

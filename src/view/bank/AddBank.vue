@@ -64,7 +64,7 @@ export default {
       bankTypeDict: [],
       bank: {},
       labelPosition: 'right',
-      statuss: [{'key': 1, value: '常用'}, {'key': 0, value: '备用'}]
+      statuss: [{'key': '1', value: '常用'}, {'key': '0', value: '备用'}]
     }
   },
   mounted () {
