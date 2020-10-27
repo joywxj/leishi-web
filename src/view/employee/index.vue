@@ -2,16 +2,16 @@
   <div>
     <el-page-header style="height: 50px" @back="goBack" title="返回"  content="员工信息">
     </el-page-header>
-    <el-form inline="true">
+    <el-form inline="true" v-model="employee">
       <el-row>
         <el-form-item label="姓名">
-          <el-input type="text"  v-model="name"></el-input>
+          <el-input type="text"  v-model="employee.name"></el-input>
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="identity" maxlength="18"></el-input>
+          <el-input v-model="employee.identity" maxlength="18"></el-input>
         </el-form-item>
         <el-form-item label="联系电话">
-          <el-input v-model="phone" maxlength="11" class="el-input" ></el-input>
+          <el-input v-model="employee.phone" maxlength="11" class="el-input" ></el-input>
         </el-form-item>
         <el-button  type="primary" icon="el-icon-search" @click="queryEmployee()">查   询</el-button>
         <el-button  type="primary" icon="el-icon-plus" @click="add()">新增</el-button>
@@ -71,10 +71,15 @@
         </el-table-column>
       </el-table>
       <div class="block">
-        <el-pagination align="center"
-                       background
-                       layout="prev, pager, next"
-                       :total="total">
+        <el-pagination
+          align="center"
+          background
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+          prev-text="上一页"
+          next-text="下一页"
+          layout="prev, pager, next"
+          :total="total">
         </el-pagination>
       </div>
     </div>
@@ -89,12 +94,17 @@ import moment from 'moment' // 导入文件
 export default {
   data () {
     return {
-      name: '',
-      identity: '',
-      phone: '',
-      salaryGrade: [],
+      employee: {
+        name: '',
+        identity: '',
+        phone: '',
+      },
       salary: '',
       userName: '',
+      pagination: {
+        page: 1,
+        size: 10
+      },
       age: '',
       list: [],
       total: 10,
@@ -103,15 +113,22 @@ export default {
     }
   },
   mounted () {
-    this.querySalary()
+    this.queryEmployee()
     this.queryEmployee()
   },
   methods: {// 定义方法,
+    handleSizeChange (size) {
+      this.pagination.size = size
+      this.queryEmployee()
+    },
+    handleCurrentChange (page) {
+      this.pagination.page = page
+      this.queryEmployee()
+    },
     timestampToTime (row, column) {
       let format = 'YYYY-MM-DD HH:mm:ss'
       var time = moment(row.updateTime).format(format)
       return time
-
     },
     remove (id) {
       var that = this
@@ -120,7 +137,10 @@ export default {
         id: id
       })).then(function (res) {
         if (res.data.status === 1) {
-          alert('删除成功')
+          that.$message({
+            message: '删除成功',
+            type: 'info'
+          })
           that.$router.go(0)
         }
       })
@@ -140,19 +160,10 @@ export default {
       setTimeout(
         function () {
           that.$router.push({
-            path: 'updateEmployee',
+            path: 'edit',
             query: {'id': id}})
         }
       )
-    },
-    querySalary () {
-      var that = this
-      var qs = require('qs')
-      axios.post('/kernel/dictionary/query', qs.stringify({
-        typeCode: 'salary'
-      })).then(function (res) {
-        that.salaryGrade = res.data.obj
-      })
     },
     queryEmployee () {
       var that = this
@@ -161,11 +172,8 @@ export default {
         this.salary = ''
       }
       axios.post('/kernel/employee/query', qs.stringify({
-        name: this.name,
-        identity: this.identity,
-        phone: this.phone,
-        page: this.pageIndex,
-        size: this.pageSize
+        ...this.employee,
+        ...this.pagination
       })).then(function (res) {
         that.list = res.data.obj.list
         that.total = res.data.obj.totalCount
@@ -178,7 +186,7 @@ export default {
       setTimeout(
         function () {
           that.$router.push({
-            path: 'addEmp'
+            path: 'edit'
           })
         }
       )

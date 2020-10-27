@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import index from '@/view/index'
 
 import bank from '@/view/bank/index'
-import updateBank from '@/view/bank/updateBank'
+import addBank from '@/view/bank/AddBank'
 import ts from '@/view/timesheet/index'
 import lettery from '@/view/lettery'
 
@@ -22,14 +22,9 @@ const router = {
       component: bank
     },
     {
-      path: '/updateBank',
-      name: 'updateBank',
-      component: updateBank
-    },
-    {
-      path: '/bank/edit',
+      path: '/addBank',
       name: 'addBank',
-      component: '@/view/bank/edit'
+      component: addBank
     },
     {
       path: '/ts',
@@ -42,20 +37,21 @@ const router = {
       component: lettery
     },
     {
-      path: '/addEmp',
+      path: '/edit',
       name: 'addEmp',
       component: () => import('@/view/employee/edit')
     },
     {
-      path: '/Employee',
+      path: '/employee',
       name: 'Employee',
       component: () => import('@/view/employee/index')
-    },
-    {
-      path: '/updateEmployee',
-      name: 'updateEmployee',
-      component: () => import('@/view/employee/UpdateEmployee')
     }
+    // ,
+    // {
+    //   path: '/updateEmployee',
+    //   name: 'updateEmployee',
+    //   component: () => import('@/view/employee/UpdateEmployee')
+    // }
   ]
 }
 export default new Router(router)

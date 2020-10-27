@@ -23,16 +23,20 @@ export default {
   data () {
     return {
       path: '',
-      menuList: [{
+      menuList: [
+        {
         title: '员工管理',
-        path: '/Employee'
-      }, {
+        path: '/employee'
+      },
+        {
         title: '工时管理',
         path: '/ts'
-      }, {
+      },
+        {
         title: '借支管理',
         path: '/advance'
-      }, {
+      },
+        {
         title: '彩票',
         path: '/lettery'
       }]
