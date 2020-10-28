@@ -36,6 +36,11 @@ const router = {
       component: ts
     },
     {
+      path: '/ts/detail',
+      name: 'timesheetindex',
+      component: () => import('@/view/timesheet/detail')
+    },
+    {
       path: '/lettery',
       name: 'lettery',
       component: lettery

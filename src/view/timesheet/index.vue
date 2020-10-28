@@ -60,8 +60,8 @@
           label="月">
         </el-table-column>
         <el-table-column
-          prop="day01"
-          label="day01">
+          prop="total"
+          label="总工时">
         </el-table-column>
         <el-table-column
           fixed="right"
@@ -69,21 +69,10 @@
           width="300"
           header-align="center">
           <template slot-scope="scope">
-            <el-button icon="el-icon-edit" @click="update(scope.row.id)" type="primary" size="small">编辑</el-button>
+            <el-button icon="el-icon-edit" @click="detail(scope.row)" type="primary" size="small">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <table >
-        <tr align="center" v-bind:key="site.id" v-for="site in sites">
-          <td>{{ site.emName }}</td>
-          <td>{{ site.cstName }}</td>
-          <td>{{ site.years }}</td>
-          <td>{{ site.months }}</td>
-          <td>{{ site.day01 }}</td>
-          <td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><button v-on:click="update(site.id)">修改</button></td>
-          <td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><button v-on:click="remove(site.id)">删除</button></td>
-        </tr>
-      </table>
     </div>
   </div>
 </template>
@@ -145,11 +134,11 @@ export default {
         }
       })
     },
-    update: function (id) {
+    detail: function (row) {
       var that = this
       setTimeout(
         function () {
-          that.$router.push({path: 'conUpdate', query: {'id': id}})
+          that.$router.push({path: 'ts/detail', query: {'timesheet': JSON.stringify(row)}})
         }
       )
     },
@@ -172,8 +161,10 @@ export default {
         that.month = ''
       }
 
-      axios.post('/kernel/timesheet/query', qs.stringify({
-        ...that.timesheet
+      axios.post('/kernel/timesheet/queryByPage', qs.stringify({
+        ...that.timesheet,
+        page: 1,
+        size: 10
       })).then(function (res) {
         that.list = res.data.obj.list
         that.count = res.data.obj.totalCount
