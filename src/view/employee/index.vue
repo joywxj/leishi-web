@@ -97,7 +97,7 @@ export default {
       employee: {
         name: '',
         identity: '',
-        phone: '',
+        phone: ''
       },
       salary: '',
       userName: '',

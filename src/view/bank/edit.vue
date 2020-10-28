@@ -86,14 +86,10 @@ export default {
   },
   mounted () {
     this.querySalary()
-    this.queryBankTypeDict()
+    // this.queryBankTypeDict()
     this.queryEmployee()
     let id = this.$route.query.id
     if (id) {
-      this.querybank()
-    }
-    this.id = this.$route.query.id
-    if (this.id !== '') {
       this.querybank()
     }
   },

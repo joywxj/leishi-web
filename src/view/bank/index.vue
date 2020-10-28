@@ -125,7 +125,7 @@ export default {
       var that = this
       setTimeout(
         function () {
-          that.$router.push({path: 'addBank', query: {'emId': emId}})
+          that.$router.push({path: 'bank/edit', query: {'emId': emId}})
         }
       )
     },
@@ -148,7 +148,7 @@ export default {
         function () {
           that.$router.push(
             {
-              path: 'addBank',
+              path: 'bank/edit',
               query: {
                 'id': id,
                 'emId': emId
@@ -177,8 +177,7 @@ export default {
       }
       axios.post('/kernel/bank/query', qs.stringify({
         emId: emdId,
-        bankCard: this.bankCard,
-        bankName: this.bank.bankName,
+        ...this.bank,
         page: 1,
         size: 10
       })).then(function (res) {

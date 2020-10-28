@@ -14,7 +14,7 @@
         </div>
         <div class="form content">
           <el-form-item label="年龄" prop="age">
-            <el-input v-model="employee.age"/>
+            <el-input readonly v-model="employee.age"/>
           </el-form-item>
           <el-form-item label="联系电话" prop="phone">
             <el-input v-model="employee.phone" maxlength="11" />
@@ -31,8 +31,11 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="登录名称">
+          <el-form-item v-if="!id" label="登录名称">
             <el-input v-model="employee.userName"/>
+          </el-form-item>
+          <el-form-item v-else label="登录名称">
+            <el-input disabled v-model="employee.userName"/>
           </el-form-item>
 
         </div>
@@ -116,7 +119,7 @@ export default {
     return {
       labelPosition: 'right',
       salaryGrade: [],
-      show: true,
+      show: false,
       id: this.$route.query.id,
       employee: {
         identity: '',
@@ -217,21 +220,21 @@ export default {
     sub: function () {
       var that = this
       var qs = require('qs')
-      let id = this.$route.query.id;
+      let id = this.$route.query.id
       let url = id ? '/kernel/employee/modify' : '/kernel/employee/add'
-      axios.post('/kernel/employee/add', qs.stringify(
+      axios.post(url, qs.stringify(
         that.employee
       )).then(function (res) {
         if (res.data.status === 1) {
-          this.$message({
+          that.$message({
             type: 'info',
-            message: id ? '修改': '新增'+'成功'
+            message: (id ? '修改' : '新增') + '成功'
           })
-          that.$router.push({path: 'Employee'})
+          that.$router.push({path: 'employee'})
         } else {
-          this.$message({
+          that.$message({
             type: 'error',
-            message: id ? '修改': '新增'+'失败'
+            message: (id ? '修改' : '新增') + '失败'
           })
         }
       })

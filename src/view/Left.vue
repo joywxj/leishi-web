@@ -25,21 +25,34 @@ export default {
       path: '',
       menuList: [
         {
-        title: '员工管理',
-        path: '/employee'
-      },
+          title: '员工管理',
+          path: '/employee'
+        },
         {
-        title: '工时管理',
-        path: '/ts'
-      },
+          title: '工时管理',
+          path: '/ts'
+        },
         {
-        title: '借支管理',
-        path: '/advance'
-      },
+          title: '借支管理',
+          path: '/advance'
+        },
+        // {
+        //   title: '彩票',
+        //   path: '/lettery'
+        // },
         {
-        title: '彩票',
-        path: '/lettery'
-      }]
+          title: '工地管理',
+          path: '/construction'
+        },
+        {
+          title: '工作量管理',
+          path: '/workload'
+        },
+        {
+          title: '薪酬管理',
+          path: '/salary'
+        }
+      ]
     }
   }
 }
