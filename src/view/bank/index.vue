@@ -70,6 +70,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="block">
+        <el-pagination
+          align="center"
+          background
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+          prev-text="上一页"
+          next-text="下一页"
+          layout="prev, pager, next"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -83,19 +95,31 @@ export default {
       name: '',
       banks: [],
       list: [],
+      total: 10,
+      pagination: {
+        page: 1,
+        size: 10
+      },
       bank: {
         bankName: ''
       }
     }
   },
   mounted () {
-    this.queryBanks()
+    this.queryBankDict()
     this.queryBank()
     this.queryEmployee()
   },
   methods: {// 定义方法,
+    handleSizeChange (size) {
+      this.pagination.size = size
+      this.queryBank()
+    },
+    handleCurrentChange (page) {
+      this.pagination.page = page
+      this.queryBank()
+    },
     formatBankName (row) {
-      // return formatDict(row.bankName, this.banks)
       let result = ''
       this.banks.forEach(item => {
         if (row.bankName === item.paramCode) {
@@ -158,7 +182,7 @@ export default {
         }
       )
     },
-    queryBanks: function () {
+    queryBankDict: function () {
       var that = this
       let params = {
         typeCode: 'bank'
@@ -172,16 +196,13 @@ export default {
       var emdId = this.$route.query.id
       var that = this
       var qs = require('qs')
-      if (this.salary === '请选择') {
-        this.salary = ''
-      }
       axios.post('/kernel/bank/query', qs.stringify({
         emId: emdId,
-        ...this.bank,
-        page: 1,
-        size: 10
+        ...that.bank,
+        ...that.pagination
       })).then(function (res) {
         that.list = res.data.obj.list
+        that.total = res.data.obj.totalCount
       })
     }
   }

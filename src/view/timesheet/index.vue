@@ -13,26 +13,26 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年">
-          <el-select v-model="year">
-            <option>请选择</option>
-            <option v-for="item in yeararr" v-bind:key="item.key" v-bind:value="item.key">{{ item.value}}</option>
+          <el-select v-model="timesheet.year">
+            <el-option>请选择</el-option>
+            <el-option v-for="item in yeararr" v-bind:key="item.key" v-bind:value="item.key">{{ item.value}}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="月">
-          <el-select v-model="month">
-            <option>请选择</option>
-            <option v-bind:value="1">1月</option>
-            <option v-bind:value="2">2月</option>
-            <option v-bind:value="3">3月</option>
-            <option v-bind:value="4">4月</option>
-            <option v-bind:value="5">5月</option>
-            <option v-bind:value="6">6月</option>
-            <option v-bind:value="7">7月</option>
-            <option v-bind:value="8">8月</option>
-            <option v-bind:value="9">9月</option>
-            <option v-bind:value="10">10月</option>
-            <option v-bind:value="11">11月</option>
-            <option v-bind:value="12">12月</option>
+          <el-select v-model="timesheet.month">
+            <el-option>请选择</el-option>
+            <el-option v-bind:value="1">1月</el-option>
+            <el-option v-bind:value="2">2月</el-option>
+            <el-option v-bind:value="3">3月</el-option>
+            <el-option v-bind:value="4">4月</el-option>
+            <el-option v-bind:value="5">5月</el-option>
+            <el-option v-bind:value="6">6月</el-option>
+            <el-option v-bind:value="7">7月</el-option>
+            <el-option v-bind:value="8">8月</el-option>
+            <el-option v-bind:value="9">9月</el-option>
+            <el-option v-bind:value="10">10月</el-option>
+            <el-option v-bind:value="11">11月</el-option>
+            <el-option v-bind:value="12">12月</el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -107,9 +107,9 @@ export default {
     }
   },
   mounted () {
+    this.getYear()
     this.queryEmDic()
     this.query()
-    this.getYear()
   },
   methods: {// 定义方法,
     importFile: function () {
@@ -171,6 +171,7 @@ export default {
       if (that.month === '请选择') {
         that.month = ''
       }
+
       axios.post('/kernel/timesheet/query', qs.stringify({
         ...that.timesheet
       })).then(function (res) {
