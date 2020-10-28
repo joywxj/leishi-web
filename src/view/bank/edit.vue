@@ -29,7 +29,7 @@
         </div>
         <div class="form content">
           <el-form-item label="状态">
-            <el-select v-model="bank.sign">
+            <el-select @change="checkSign()" v-model="bank.sign">
               <el-option
                 :key="item.keywords"
                 :label="item.value"
@@ -69,7 +69,7 @@ export default {
       bankName: '',
       bankDeposit: '',
       sign: 1,
-      emId: '',
+      emId: this.$route.query.emId,
       id: '',
       name: '',
       bankRules: {
@@ -86,7 +86,6 @@ export default {
   },
   mounted () {
     this.querySalary()
-    // this.queryBankTypeDict()
     this.queryEmployee()
     let id = this.$route.query.id
     if (id) {
@@ -94,6 +93,27 @@ export default {
     }
   },
   methods: {// 定义方法
+    checkSign () {
+      var qs = require('qs')
+      if (this.bank.sign === '1') {
+        let that = this
+        axios.post('/kernel/bank/query', qs.stringify({
+          page: 1,
+          size: 10,
+          emId: that.emId,
+          sign: 1
+        })).then(function (res) {
+          console.log(res)
+          if (res.data.obj.list.length > 0 && that.bank.bankCard !== res.data.obj.list[0].bankCard) {
+            that.$message({
+              tppe: 'warning',
+              message: that.name + '已经存在常用银行卡,请先将:' + res.data.obj.list[0].bankCard + '改为备用'
+            })
+            that.bank.sign = '0'
+          }
+        })
+      }
+    },
     querybank: function () {
       var id = this.$route.query.id
       this.id = id
@@ -102,13 +122,7 @@ export default {
       axios.post('/kernel/bank/query', qs.stringify(
         {id: id, page: 1, size: 10}
       )).then(function (res) {
-        if (res.data.obj.list[0].sign === '常用') {
-          that.sign = 1
-        } else {
-          that.sign = 0
-        }
         that.bank = res.data.obj.list[0]
-        // that.name = res.data.obj.list[0].emId
       })
     },
     queryEmployee: function () {
@@ -136,7 +150,7 @@ export default {
       let url = this.$route.query.id ? '/kernel/bank/modify' : '/kernel/bank/add'
       axios.post(url, qs.stringify(that.bank)).then(function (res) {
         if (res.data.status === 1) {
-          that.$router.push({path: 'bank', query: {'id': emId}})
+          that.$router.push({path: '/bank', query: {'id': emId}})
         } else {
           this.$message({
             message: '更新失败',

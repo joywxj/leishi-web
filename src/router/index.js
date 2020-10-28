@@ -11,6 +11,11 @@ Vue.use(Router)
 const router = {
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/view/login')
+    },
+    {
       path: '/',
       name: 'index',
       component: index
@@ -44,6 +49,11 @@ const router = {
       path: '/employee',
       name: 'Employee',
       component: () => import('@/view/employee/index')
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: () => import('@/view/index')
     }
     // ,
     // {

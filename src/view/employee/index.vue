@@ -150,7 +150,7 @@ export default {
       setTimeout(
         function () {
           that.$router.push({
-            path: 'bank',
+            path: '/bank',
             query: {'id': id}})
         }
       )

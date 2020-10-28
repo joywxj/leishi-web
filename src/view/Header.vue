@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div :style="{backgroundImage:'url('+require('../assets/header.png')+')'}">
     <el-container>
-      <el-header><font color="409EFF">欢迎来到军朝集团</font> </el-header>
-      <router-link :to="Employee">修改密码</router-link>
+      <el-header style="text-align: right">
+        <font color="409EFF">欢迎来到军朝集团</font>
+        <el-button type="primary">退出</el-button>
+      </el-header>
     </el-container>
   </div>
 </template>
