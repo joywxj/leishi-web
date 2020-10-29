@@ -138,7 +138,7 @@ export default {
       var that = this
       setTimeout(
         function () {
-          that.$router.push({path: 'ts/detail', query: {'timesheet': JSON.stringify(row)}})
+          that.$router.push({path: 'ts/detail', query: {'id': row.id}})
         }
       )
     },

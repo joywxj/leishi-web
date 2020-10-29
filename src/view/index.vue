@@ -9,14 +9,14 @@
 </template>
 
 <script>
-  import header from './Header.vue'
-  import left from './Left.vue'
+import header from './Header.vue'
+import left from './Left.vue'
 
-  export default {
-    name: 'App',
-    components: {
-      headerNav: header,
-      left: left
-    }
+export default {
+  name: 'App',
+  components: {
+    headerNav: header,
+    left: left
   }
+}
 </script>
