@@ -46,6 +46,7 @@ export default {
       day: 0,
       tempDate: 1,
       id: 1,
+      dataRang: [],
       value: new Date(),
       timesheet: {},
       editVisiable: false
@@ -80,8 +81,7 @@ export default {
         .post('kernel/timesheet/get', require('qs').stringify({id: that.id}))
         .then(function (res) {
           that.timesheet = res.data.obj
-          // console.log('timesheet:', that.timesheet)
-          that.value = moment(that.timesheet.years + '-' + that.timesheet.months).format('yyyy-MM')
+          that.value = moment(res.data.obj.years + '-' + res.data.obj.months).format('yyyy-MM')
         })
     },
     handleClose () {
@@ -93,14 +93,7 @@ export default {
       this.editVisiable = true
     },
     initTs (date) {
-      console.log('day', date)
       let day = date.split('-')[2]
-      let year = date.split('-')[0]
-      let month = parseInt(date.split('-')[1])
-      console.log('year:', year, this.timesheet.years)
-      console.log('mounth:', month, this.timesheet.months)
-
-      // if (year === this.timesheet.years && month === this.timesheet.months) {
       if (day === '01') {
         return this.timesheet.day01
       } else if (day === '02') {
@@ -164,8 +157,6 @@ export default {
       } else if (day === '31') {
         return this.timesheet.day31
       }
-      // }
-
       return ''
     },
     setTs (date) {

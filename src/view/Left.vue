@@ -7,7 +7,7 @@
             router="true"
             text-color="#409EFF"
             active-text-color="#ffd04b">
-            <template  v-for="(item, index) in menuList">
+            <template v-for="(item, index) in menuList">
               <el-menu-item :index = "item.path" :key = "index">
                 {{item.title}}
               </el-menu-item>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Left',
   data () {
@@ -36,10 +37,6 @@ export default {
           title: '借支管理',
           path: '/advance'
         },
-        // {
-        //   title: '彩票',
-        //   path: '/lettery'
-        // },
         {
           title: '工地管理',
           path: '/construction'
@@ -53,6 +50,19 @@ export default {
           path: '/salary'
         }
       ]
+    }
+  },
+  mounted () {
+    this.queryMenuList()
+  },
+  methods: {
+    queryMenuList () {
+      let that = this
+      axios.post('kernel/menu/getMenuTree', require('qs').stringify({
+        emId: 8
+      })).then(res => {
+        that.menuList = res.data.obj
+      })
     }
   }
 }
