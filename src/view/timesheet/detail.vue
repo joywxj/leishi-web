@@ -1,7 +1,10 @@
 <template>
     <div>
 <!--   工时详情页面   -->
-      <el-calendar v-model="value">
+      <el-calendar
+        v-model="value"
+        disdabled
+      >
         <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
         <template
           slot="dateCell"
@@ -9,8 +12,8 @@
           prev-text="上个月"
         >
           <p :class="data.isSelected ? 'is-selected' : ''" style="text-align: center">
-            {{ data.day.split('-').slice(1).join('-') }}<br/> {{ initTs(data.day) === 0 ? '休息' : (initTs(data.day) + ' H')}}
-            <el-button type="primary" size="small" @click="edit(data.day)" icon="el-icon-edit" circle></el-button>
+            {{ data.day.split('-').slice(1).join('-') }}<br/> {{ initTs(data.day) === 0 ? '' : (initTs(data.day) + ' H')}}
+            <el-button type="primary" v-if="compareDate(data.day, currentDate)" icon="el-icon-edit" size="mini" round @click="edit(data.day)"></el-button>
           </p>
         </template>
       </el-calendar>
@@ -48,17 +51,18 @@ export default {
       id: 1,
       dataRang: [],
       value: new Date(),
+      currentDate: new Date(),
       timesheet: {},
       editVisiable: false
     }
   },
   mounted () {
-    // let timesheet = this.$route.query.timesheet
-    // let jsonTime = JSON.parse(timesheet)
-    // this.timesheet = jsonTime
     this.initTimesheet()
   },
   methods: {
+    compareDate (beforeDate, afterDate) {
+      return moment(beforeDate) < moment(afterDate)
+    },
     subTs () {
       this.setTs(this.tempDate)
       let that = this
