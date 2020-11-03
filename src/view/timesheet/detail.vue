@@ -8,8 +8,7 @@
         <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
         <template
           slot="dateCell"
-          slot-scope="{type, date, data}"
-          prev-text="上个月"
+          slot-scope="{data}"
         >
           <p :class="data.isSelected ? 'is-selected' : ''" style="text-align: center">
             {{ data.day.split('-').slice(1).join('-') }}<br/> {{ initTs(data.day) === 0 ? '' : (initTs(data.day) + ' H')}}
@@ -60,6 +59,9 @@ export default {
     this.initTimesheet()
   },
   methods: {
+    handleCalendarChange (s) {
+      console.log(s)
+    },
     compareDate (beforeDate, afterDate) {
       return moment(beforeDate) < moment(afterDate)
     },
@@ -70,7 +72,7 @@ export default {
       that.$delete(that.timesheet, 'modifyTime')
 
       axios
-        .post('kernel/timesheet/modify', require('qs').stringify(that.timesheet))
+        .post('kernel/timesheet/deitTs', require('qs').stringify(that.timesheet))
         .then(function (res) {
           if (res.data.status === 1) {
             that.editVisiable = false
@@ -80,9 +82,15 @@ export default {
     },
     initTimesheet () {
       this.id = this.$route.query.id
+      let timesheet = this.$route.query.timesheet
+      let jsonTime = JSON.parse(timesheet)
       let that = this
       axios
-        .post('kernel/timesheet/get', require('qs').stringify({id: that.id}))
+        .post('kernel/timesheet/queryOne', require('qs').stringify({
+          years: jsonTime.years,
+          months: jsonTime.months,
+          emId: jsonTime.emId
+        }))
         .then(function (res) {
           that.timesheet = res.data.obj
           that.value = moment(res.data.obj.years + '-' + res.data.obj.months).format('yyyy-MM')
@@ -165,6 +173,10 @@ export default {
     },
     setTs (date) {
       let day = date.split('-')[2]
+      let months = date.split('-')[1]
+      let year = date.split('-')[0]
+      this.timesheet.years = year
+      this.timesheet.months = months
       if (day === '01') {
         this.timesheet.day01 = this.day
       } else if (day === '02') {
