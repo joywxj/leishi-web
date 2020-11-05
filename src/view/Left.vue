@@ -1,25 +1,26 @@
 <template>
   <div>
     <el-aside width="100%">
-          <el-menu
+      <el-menu
             default-active="4"
             class="el-menu-vertical-demo"
             router="true"
             text-color="#409EFF"
             active-text-color="#ffd04b">
-            <template v-for="(item, index) in menuList">
-              <el-menu-item :index = "item.path" :key = "index">
-                {{item.title}}
-              </el-menu-item>
-            </template>
-          </el-menu>
+        <menu-children :list="menuList"></menu-children>
+      </el-menu>
     </el-aside>
   </div>
 </template>
 
 <script>
+import MenuChildren from "../component/MenuChildren";
 import axios from 'axios'
 export default {
+  components: {MenuChildren},
+  comments: {
+    MenuChildren
+  },
   name: 'Left',
   data () {
     return {
