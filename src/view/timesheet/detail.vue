@@ -11,7 +11,7 @@
           slot-scope="{data}"
         >
           <p :class="data.isSelected ? 'is-selected' : ''" style="text-align: center">
-            {{ data.day.split('-').slice(1).join('-') }}<br/> {{ initTs(data.day) === 0 ? '' : (initTs(data.day) + ' H')}}
+            {{ data.day.split('-').slice(1).join('-') }}<br/> {{ initTs(data.day) === 0 || initTs(data.day) === '' ? '' : (initTs(data.day) + ' H')}}
             <el-button type="primary" v-if="compareDate(data.day, currentDate)" icon="el-icon-edit" size="mini" round @click="edit(data.day)"></el-button>
           </p>
         </template>
@@ -46,6 +46,10 @@ export default {
     return {
       name: '',
       day: 0,
+      years: 0,
+      months: 0,
+      ecInfo: {
+      },
       tempDate: 1,
       id: 1,
       dataRang: [],
@@ -59,9 +63,7 @@ export default {
     this.initTimesheet()
   },
   methods: {
-    handleCalendarChange (s) {
-      console.log(s)
-    },
+
     compareDate (beforeDate, afterDate) {
       return moment(beforeDate) < moment(afterDate)
     },
@@ -93,6 +95,14 @@ export default {
         }))
         .then(function (res) {
           that.timesheet = res.data.obj
+          that.years = res.data.obj.years
+          that.months = res.data.obj.months
+          that.ecInfo = {
+            emId: that.timesheet.emId,
+            emName: that.timesheet.emName,
+            cstId: that.timesheet.cstId,
+            cstName: that.timesheet.cstName
+          }
           that.value = moment(res.data.obj.years + '-' + res.data.obj.months).format('yyyy-MM')
         })
     },
@@ -106,6 +116,18 @@ export default {
     },
     initTs (date) {
       let day = date.split('-')[2]
+      let months = date.split('-')[1]
+      let years = date.split('-')[0]
+      let tMonths = ''
+      console.log(months)
+      if (this.timesheet.months < 10) {
+        tMonths = '0' + this.timesheet.months
+      } else {
+        tMonths = this.timesheet.months + ''
+      }
+      if (years !== this.timesheet.years + '' || tMonths !== months) {
+        return ''
+      }
       if (day === '01') {
         return this.timesheet.day01
       } else if (day === '02') {
@@ -171,12 +193,37 @@ export default {
       }
       return ''
     },
+    currentMonth (date) {
+      let months = date.split('-')[1]
+      let years = date.split('-')[0]
+      let tMonths = ''
+      console.log(months)
+      if (this.timesheet.months < 10) {
+        tMonths = '0' + this.timesheet.months
+      } else {
+        tMonths = this.timesheet.months + ''
+      }
+      if (years !== this.timesheet.years + '' || tMonths !== months) {
+        return false
+      }
+      return true
+    },
     setTs (date) {
       let day = date.split('-')[2]
       let months = date.split('-')[1]
       let year = date.split('-')[0]
-      this.timesheet.years = year
-      this.timesheet.months = months
+      if (this.currentMonth(date)) {
+        this.timesheet.years = year
+        this.timesheet.months = months
+      } else {
+        this.timesheet = {}
+        this.timesheet = {
+          ...this.ecInfo
+        }
+        this.timesheet.years = year
+        this.timesheet.months = months
+      }
+
       if (day === '01') {
         this.timesheet.day01 = this.day
       } else if (day === '02') {

@@ -4,7 +4,7 @@
       <el-menu-item v-if="item.children <= 0" :index = "item.path" :key = "index">
         {{item.title}}
       </el-menu-item>
-      <el-submenu v-else onclick="item.path" :index="item.path">
+      <el-submenu v-else :index="item.path">
         <template slot="title" :index="item.path">{{item.title}}</template>
         <menu-children :list="item.children"></menu-children>
       </el-submenu>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "MenuChildren",
+  name: 'MenuChildren',
   props: {
     list: Array
   }
