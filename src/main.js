@@ -86,13 +86,17 @@ import {
   MessageBox,
   Message,
   Notification
+// eslint-disable-next-line import/no-duplicates
 } from 'element-ui'
 // eslint-disable-next-line import/no-duplicates
 import Element from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { zhLocale })
+Vue.use(ElementUI, { locale })
 Vue.use(Element, { size: 'small', zIndex: 3000 })
 Vue.use(Pagination)
 Vue.use(Dialog)

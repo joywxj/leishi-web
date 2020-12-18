@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import MenuChildren from '../component/MenuChildren';
+import MenuChildren from '../component/MenuChildren'
 import axios from 'axios'
 export default {
   components: {MenuChildren},
