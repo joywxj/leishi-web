@@ -59,13 +59,13 @@ const router = {
       path: '/index',
       name: 'index',
       component: () => import('@/view/index')
+    },
+    {
+      path: '/advance',
+      name: 'advance',
+      component: () => import('@/view/advance/index')
     }
-    // ,
-    // {
-    //   path: '/updateEmployee',
-    //   name: 'updateEmployee',
-    //   component: () => import('@/view/employee/UpdateEmployee')
-    // }
+
   ]
 }
 export default new Router(router)
